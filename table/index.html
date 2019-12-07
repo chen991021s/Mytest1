@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="css/index.css"/>
+		<script type="text/javascript">
+			//添加
+			function add(){
+				//获取用户的输入
+				var name=document.getElementById("names").value;
+				var nums=document.getElementById("ids").value;
+				var score=document.getElementById("score").value;
+				var age=document.getElementById("age").value;
+				//获取table
+				var table=document.getElementById("table");
+				var rowlength=table.rows.length-1;
+				var s=table.rows.length-2;
+					var lie=table.rows[s].cells[0].innerText;
+					// console.log(lie);
+					//判断编号是否重复
+					if(lie==nums || nums=="" ){
+						alert("编号不能重复,且不能为空,成绩不能为空");
+					}else if(score==""){
+						alert("成绩不能为空");
+					}else{
+						//添加行
+						var row=table.insertRow(rowlength);
+						row.className="rows";
+						//添加列
+						var cell1=row.insertCell(0);
+						var cell2=row.insertCell(1);
+						var cell3=row.insertCell(2);
+						var cell4=row.insertCell(3);
+						var cell5=row.insertCell(4);
+						//赋值
+						cell1.innerHTML=nums;
+						cell2.innerHTML=name;
+						cell3.innerHTML=score;
+						cell4.innerHTML=age;
+						cell5.innerHTML="<a href='#'onclick='del("+nums+")'>删除</a><a href='#'onclick='update("+nums+")'>修改</a>";
+						//计算
+				       unm();
+					}
+			}
+			//计算
+			function unm(){
+					// //获取当前这一行的行数
+					var s=table.rows.length-2;
+					// console.log(s);
+					//这一行的成绩
+					var rownum=table.rows[s].cells[2].innerText;
+					//总成绩
+					var textnum=document.getElementById("num").innerText;
+					//转换类型
+					var rownums=parseInt(rownum);
+					var textnums=parseInt(textnum);
+					var add=rownums+textnums;//相加
+					// console.log(rownum2);
+					// console.log(textnums);
+					document.getElementById("num").innerText=add;//赋值
+				
+			}
+			//删除
+			function del(nums){
+				// alert("删除");
+				//获取所有的table
+				var table=document.getElementById("table");
+				for(i=1;i<table.rows.length;i++){//table.rows.length行数
+					//获取所有的编号列的内容
+					var um=table.rows[i].cells[0].innerText;
+					// console.log(um);
+					// console.log(nums);
+					if(nums==um){//判断当前点击的编号是否与所有的编号有相对应当
+						//获取当前这一行的score值
+						var s=table.rows[i].cells[2].innerHTML;
+						// console.log(s);
+						//总成绩
+						var textnum=document.getElementById("num").innerText;
+						// console.log(textnum);
+						//转换类型
+						var rownums=parseInt(s);
+						var textnums=parseInt(textnum);
+						var jian=textnums-rownums;
+						document.getElementById("num").innerText=jian;//赋值
+						table.deleteRow(i);//删除行
+					}
+				}
+					
+			}
+		
+			//更新
+			function update(nums){
+				// alert("修改");
+				var name=prompt("修改姓名");
+				var score=prompt("修改成绩");
+				var age=prompt("修改年龄");
+				//获取所有的table
+				var table=document.getElementById("table");
+				for(var i=1;i<table.rows.length;i++){
+					//当前修改的编号
+					var lie=table.rows[i].cells[0].innerText;
+					// console.log(lie);
+					if(nums==lie){
+						//修改前的成绩
+						var st=table.rows[i].cells[2].innerHTML;
+						// console.log(st);
+						table.rows[i].cells[1].innerHTML=name;
+						table.rows[i].cells[2].innerHTML=score;
+						table.rows[i].cells[3].innerHTML=age;
+						//这一行修改后的的成绩
+						var scores=score;
+						// 修改前的总成绩
+						var textnum=document.getElementById("num").innerText;
+						// //转换类型
+						var rownums=parseInt(scores);//修改后的的成绩
+						var textnums=parseInt(textnum);//修改前的总成绩
+						var sts=parseInt(st);//修改前的成绩
+						// console.log(sts);
+						// console.log(rownums);
+						// console.log(textnums);
+						var zong=parseInt(rownums-sts);
+						var zong2=parseInt(sts-rownums);
+						//判断到是修改前的数大还是修改后的数大
+						if(rownums>sts){
+							var add=textnums+zong;//相加
+							//alert(add);
+							document.getElementById("num").innerText=add;//赋值
+						 }else{
+							var add=textnums-zong2;//相加
+							//alert(add);
+							document.getElementById("num").innerText=add;//赋值
+						 }
+						
+						
+						
+				
+					}
+					
+			}
+			// unm();
+		}
+		</script>
+	</head>
+	<body>
+		<div id="bigbox">
+				<div style="text-align: center;">
+					<h3 >添加数据</h3>
+					编号：<input type="number" name="ids" id="ids" value="" /><br/>
+					姓名：<input type="text" name="name" id="names" value="" /><br/>
+					成绩：<input type="number" name="score" id="score" value="" /><br/>
+					年龄：<input type="number" name="age" id="age" value="" /><br/>
+					<input type="submit" value="添加数据" onclick="add()" class="sub"/>
+				</div>
+				<div>
+				<table border="1" cellspacing="0" cellpadding="0"id="table">
+					<tr>
+						<th>编号</th>
+						<th>姓名</th>
+						<th>成绩</th>
+						<th>年龄</th>
+						<th>操作</th>
+					</tr>
+					<tr>
+						<td colspan="2">总成绩</td>
+						<td colspan="3" id="num">0</td>
+					</tr>
+				</table>			
+				</div>
+			</div>
+		
+	</body>
+</html>
